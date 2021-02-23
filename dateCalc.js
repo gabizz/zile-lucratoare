@@ -7,27 +7,27 @@ const isLegalDay = (day) => {
 }
 
 const dtcalc = function dateCalc({params},res) {
-    let {days} = params
+    let {days, from} = params
+    console.log("from:", from)
+    const initalDay = from ? new moment(from) : new moment()
 
-    const initalDay = new moment("2021-12-01")
-    console.log("INITIAL: ",initalDay.format("DD.MM.YYYY"))
     
     let r = []
-    for ( let i = 1; r.length < 45; i++) {
-        let day = initalDay.clone().add(i, "day")
+    for ( let i = 0; r.length < days; i++) {
+         
+        let day =  i === 0 ? initalDay.clone() : initalDay.clone().add(i, "day") 
        
-        let weekday = day.format("dd")
+        let weekday = day.clone().format("dd")
         if ( !["Su", "Sa"].includes(weekday) &&  !isLegalDay(day)) {
-            r.push(day)
+            r.push(day.clone())
         }
     }
 
 
     res.send("<pre>" +JSON.stringify({
-        start: moment().format("DD.MM.YYYY"),
+        start: initalDay.clone(),
         days: days,
         end: r[r.length-1],
-        freeDays: legalDays
     }, null, 4) +"</pre>" )
 }
 

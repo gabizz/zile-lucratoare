@@ -14,7 +14,7 @@ const corsOption = {
   };
 
 const Router = new express.Router()
-Router.get('/:days', dateCalc)
+Router.get('/:days/:from?', dateCalc)
 
 const app = new express();
 app.set('port', port);
